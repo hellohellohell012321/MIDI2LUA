@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIDI Rest Parser</title>
+  <script src="https://cdn.jsdelivr.net/npm/tone"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tonejs/midi"></script>
+  <style>
+body {
+  font-family: 'Arial', sans-serif;
+  background-size: cover;
+  margin: 0;
+  padding: 20px;
+  background-color: transparent;
+  overflow-y: auto;
+}
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.container {
+  border-radius: 12px;
+  padding: 40px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: slideUp 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(50px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+h1 {
+  font-size: 2rem;
+  color: #fb6f92;
+  margin-bottom: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+label {
+  font-size: 1.1rem;
+  color: #ff8fab;
+  margin-bottom: 5px;
+  display: block;
+}
+
+input, button, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ffe5ec;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+input[type="file"] {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+button {
+  background-color: #ffc2d1;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+button:hover {
+  background-color: #ffb3c6;
+  transform: scale(1.05);
+}
+
+#convertButton {
+  background-color: #ff8fab;
+}
+
+#convertButton:hover {
+  background-color: #fb6f92;
+}
+
+#copyButton {
+  background-color: #ff8fab;
+}
+
+#copyButton:hover {
+  background-color: #fb6f92;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 150px;
+  background-color: #fafafa;
+  border: 1px solid #ffe5ec;
+  color: #333;
+  font-size: 1rem;
+}
+
+.info-box {
+  max-width: 600px;
+  background-color: #fff3f8;
+  border: 1px solid #ffe5ec;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  color: #444;
+}
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <h1>MIDI2LUA - a revolutionary roblox autoplaying tool.</h1>
+      <label for="bpmInput">enter BPM:</label>
+      <input type="number" id="bpmInput" placeholder="Enter BPM" min="1" value="120" />
+      <input type="file" id="midiFile" accept=".mid" />
+      <button id="convertButton">lets go!</button>
+      <textarea id="output" readonly placeholder="Converted output will appear here..."></textarea>
+      <button id="copyButton">copy that bih</button>
+    </div>
+
+    <!-- Information Box -->
+    <div class="info-box">
+      <h2>about MIDI2LUA</h2>
+      <p>MIDI2LUA is branched off of TALENTLESS, a roblox script that autoplays the virtual piano by injecting fake keystrokes. MIDI2LUA extracts the rest intervals between notes in your midi file and converts them into a custom LUA format, which was also created by hellohellohell012321 and is used in his script, TALENTLESS.</p>
+      <p>FAQ</p>
+      <p>Q: how do i start the autoplay?</p>
+      <p>A: copy the output that this website gives you, paste it into your roblox executor and run it.</p>
+      <p>Q: why does it sound kind of weird?</p>
+      <p>A: MIDI2LUA is 100% accurate, so make sure the issues doesn't arise from the midi file itself</p>
+      <p>Q: where do i find midi files?</p>
+      <p>A: online sequencer, or use a musescore to midi converter.</p>
+      <p>Q: i have a question or an issue that wasn't mentioned in the FAQ.</p>
+      <p>A: join the discord and create a support ticket! https://discord.gg/MP9nZgEeQD </p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
