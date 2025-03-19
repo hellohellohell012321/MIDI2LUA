@@ -3,145 +3,177 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yourgithubusername.github.io/MIDI2LUA">
-    <meta property="og:site_name" content="MIDI2LUA">
-    <meta property="og:description" content="a revolutionary roblox autoplaying tool.">
-    <meta property="og:footer" content="by hellohellohell012321">
-    <meta name="theme-color" content="#ffc2d1">
-  <meta property="og:image" content="https://i.imgur.com/38kUeWe.jpeg">
-  
-  <link type="application/json+oembed" href="embed.json">
-  
   <title>MIDI2LUA</title>
   <script src="https://cdn.jsdelivr.net/npm/tone"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tonejs/midi"></script>
   <style>
-body {
-  font-family: 'Arial', sans-serif;
-  background-size: cover;
-  margin: 0;
-  padding: 20px;
-  background-color: transparent;
-  overflow-y: auto;
-}
+    body {
+      font-family: 'Arial', sans-serif;
+      background-size: cover;
+      margin: 0;
+      padding: 20px;
+      background-color: transparent;
+      overflow-y: auto;
+    }
 
-.wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    .wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
+    #popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border: 1px solid black;
+      visibility: hidden;
+      display: none;
+    }
 
-.container {
-  border-radius: 12px;
-  padding: 40px;
-  width: 90%;
-  max-width: 600px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  animation: slideUp 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: white;
-}
+    .container {
+      border-radius: 12px;
+      padding: 40px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      animation: slideUp 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: white;
+    }
 
-@keyframes slideUp {
-  0% { transform: translateY(50px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
-}
+    @keyframes slideUp {
+      0% { transform: translateY(50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
 
-h1 {
-  font-size: 2rem;
-  color: #fb6f92;
-  margin-bottom: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
+    h1 {
+      font-size: 2rem;
+      color: #fb6f92;
+      margin-bottom: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
 
-label {
-  font-size: 1.1rem;
-  color: #ff8fab;
-  margin-bottom: 5px;
-  display: block;
-}
+    label {
+      font-size: 1.1rem;
+      color: #ff8fab;
+      margin-bottom: 5px;
+      display: block;
+    }
 
-input, button, textarea {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ffe5ec;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: all 0.3s ease-in-out;
-}
+    input, button, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ffe5ec;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease-in-out;
+    }
 
-input[type="file"] {
-  background-color: #f9f9f9;
-  cursor: pointer;
-}
+    input[type="file"] {
+      background-color: #f9f9f9;
+      cursor: pointer;
+    }
 
-button {
-  background-color: #ffc2d1;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-  border-radius: 8px;
-  padding: 12px;
-}
+    button {
+      background-color: #ffc2d1;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+      border-radius: 8px;
+      padding: 12px;
+    }
 
-button:hover {
-  background-color: #ffb3c6;
-  transform: scale(1.05);
-}
+    button:hover {
+      background-color: #ffb3c6;
+      transform: scale(1.02);
+    }
 
-#convertButton {
-  background-color: #ff8fab;
-}
+    #convertButton {
+      background-color: #ff8fab;
+    }
 
-#convertButton:hover {
-  background-color: #fb6f92;
-}
+    #convertButton:hover {
+      background-color: #fb6f92;
+    }
 
-#copyButton {
-  background-color: #ff8fab;
-}
+    #copyButton {
+      background-color: #ff8fab;
+    }
 
-#copyButton:hover {
-  background-color: #fb6f92;
-}
+    #copyButton:hover {
+      background-color: #fb6f92;
+    }
 
-textarea {
-  resize: vertical;
-  min-height: 150px;
-  background-color: #fafafa;
-  border: 1px solid #ffe5ec;
-  color: #333;
-  font-size: 1rem;
-}
+    textarea {
+      resize: vertical;
+      min-height: 150px;
+      background-color: #fafafa;
+      border: 1px solid #ffe5ec;
+      color: #333;
+      font-size: 1rem;
+    }
 
-.info-box {
-  max-width: 600px;
-  background-color: #fff3f8;
-  border: 1px solid #ffe5ec;
-  border-radius: 12px;
-  padding: 20px;
-  margin-top: 20px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  font-size: 1rem;
-  color: #444;
-}
+    .info-box {
+      max-width: 600px;
+      background-color: #fff3f8;
+      border: 1px solid #ffe5ec;
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-top: 20px;
+      text-align: left;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      font-size: 1rem;
+      color: #444;
+    }
+
+    .info-box p {
+      margin: 5px 0;
+    }
+
+    .info-box h2 {
+      margin-bottom: 10px;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    #infoIcon {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
+
+    .checkbox-container label {
+      white-space: nowrap;
+    }
+
+    .popup-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border: 1px solid black;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -151,27 +183,61 @@ textarea {
       <label for="bpmInput">enter BPM:</label>
       <input type="number" id="bpmInput" placeholder="Enter BPM" min="1" value="120" />
       <input type="file" id="midiFile" accept=".mid" />
-      <button id="convertButton">lets go!</button>
+      <button id="convertButton">let's go!</button>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="midi88Checkbox" />
+        <label for="midi88Checkbox">toggle midi88 conversion</label>
+        <span id="infoIcon">?</span>
+      </div>
+
       <textarea id="output" readonly placeholder="Converted output will appear here..."></textarea>
       <button id="copyButton">copy that bih</button>
+
+      <!-- Popup modal -->
+      <div id="popup">
+        <img src="pic.png" alt="Image description" style="width:50%; height:auto; margin-bottom: 15px;">
+        <h3>What is midi88 conversion?</h3>
+        <p>midi88 lets you press lower and higher keys in the virtual piano, by clicking the control key. Usually, Roblox pianos only have five octaves on the piano, but a lot of songs use seven octaves. So when you are autoplaying with midi88, the song will sound a lot more full because it will be using the full seven-octave piano. The downside is that only some games support the usage of midi88, some of them being: Visual Pianos, Piano Rooms, Tac's Piano Stuff</p>
+        <button onclick="closePopup()">ok!</button>
+      </div>
+      
     </div>
 
     <!-- Information Box -->
     <div class="info-box">
-      <h2>about MIDI2LUA</h2>
-      <p>MIDI2LUA is branched off of TALENTLESS, a roblox script that autoplays the virtual piano by injecting fake keystrokes. MIDI2LUA extracts the rest intervals between notes in your midi file and converts them into a custom LUA format, which was also created by hellohellohell012321 and is used in his script, TALENTLESS.</p>
-      <p>FAQ</p>
-      <p>Q: how do i start the autoplay?</p>
-      <p>A: copy the output that this website gives you, paste it into your roblox executor and run it.</p>
-      <p>Q: why does it sound kind of weird?</p>
-      <p>A: MIDI2LUA is 100% accurate, so make sure the issues doesn't arise from the midi file itself</p>
-      <p>Q: where do i find midi files?</p>
-      <p>A: online sequencer, or use a musescore to midi converter.</p>
-      <p>Q: i have a question or an issue that wasn't mentioned in the FAQ.</p>
-      <p>A: join the discord and create a support ticket! https://discord.gg/MP9nZgEeQD </p>
+      <h2>About MIDI2LUA</h2>
+      <p>MIDI2LUA is branched off of TALENTLESS, a Roblox script that autoplays the virtual piano by injecting fake keystrokes. MIDI2LUA extracts the rest intervals between notes in your MIDI file and converts them into a custom LUA format, which was also created by hellohellohell012321 and is used in his script, TALENTLESS.</p>
+      <p><strong>FAQ</strong></p>
+      <p><strong>Q:</strong> How do I start the autoplay?</p>
+      <p><strong>A:</strong> Copy the output that this website gives you, paste it into your Roblox executor, and run it.</p>
+      <p><strong>Q:</strong> Why does it sound kind of weird?</p>
+      <p><strong>A:</strong> MIDI2LUA is 100% accurate, so make sure the issue doesn't arise from the MIDI file itself.</p>
+      <p><strong>Q:</strong> Where do I find MIDI files?</p>
+      <p><strong>A:</strong> Use an online sequencer, or use a MuseScore to MIDI converter.</p>
+      <p><strong>Q:</strong> I have a question or an issue that wasn't mentioned in the FAQ.</p>
+      <p><strong>A:</strong> Join the Discord and create a support ticket! <a href="https://discord.gg/MP9nZgEeQD" target="_blank">Join here</a></p>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+// Show popup without fade-in effect
+document.getElementById('infoIcon').addEventListener('click', function() {
+  const popup = document.getElementById('popup');
+  popup.style.visibility = 'visible'; // Make the popup visible immediately
+  popup.style.display = `block`;
+});
+
+// Close popup without fade-out effect
+function closePopup() {
+  const popup = document.getElementById('popup');
+  popup.style.visibility = 'hidden'; // Hide the popup immediately
+  popup.style.display = 'none';      // Remove from the layout
+}
+  </script>
+
+<script src="midi61.js"></script>
+<script src="midi88.js"></script>
+
 </body>
 </html>
