@@ -1,3 +1,35 @@
+// this only needs to be used once so that every js file can use it
+function uploadToPastefy(title, content, callback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://pastefy.app/api/v2/paste");
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+  
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+         let real = JSON.parse(xhr.responseText);
+         let url = real.paste.raw_url;
+         console.log(url);
+         if (callback) {
+           callback(url); // Invoke the callback with the URL
+         }
+      }
+    };
+  
+    let data = JSON.stringify({
+      type: "PASTE",
+      title: title,
+      content: content,
+      visibility: "UNLISTED",
+      encrypted: "false",
+      expire_at: "2030-02-01 16:03:09.0"
+    });
+  
+    xhr.send(data);
+}
+window.uploadToPastefy = uploadToPastefy;
+
+
 
 document.getElementById("convertButton").addEventListener("click", async () => {
     console.log("Button click detected in Script 1"); 
@@ -74,7 +106,14 @@ document.getElementById("convertButton").addEventListener("click", async () => {
         });
         
         output += `\n\nfinishedSong()`
-        document.getElementById("output").value = output;
+        const outputText = document.getElementById("output");
+       outputText.value = "Uploading to Pastefy...";
+        uploadToPastefy("MIDI2LUA SCRIPT", output, function(url) {
+            console.log(url);
+            // assemble loadstring using url
+            outputText.value = `loadstring(game:HttpGet("${url}", true))()`;
+
+        });
     };
     
     reader.readAsArrayBuffer(fileInput.files[0]);

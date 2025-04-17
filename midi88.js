@@ -74,7 +74,14 @@ document.getElementById("convertButton").addEventListener("click", async () => {
         });
         
         output += `\n\nfinishedSong()`
-        document.getElementById("output").value = output;
+        const outputText = document.getElementById("output");
+       outputText.value = "Uploading to Pastefy...";
+        uploadToPastefy("MIDI2LUA SCRIPT", output, function(url) {
+            console.log(url);
+            // assemble loadstring using url
+            outputText.value = `loadstring(game:HttpGet("${url}", true))()`;
+
+        });
     };
     
     reader.readAsArrayBuffer(fileInput.files[0]);
