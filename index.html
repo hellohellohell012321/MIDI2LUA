@@ -3,16 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- 
-   <meta property="og:type" content="website">
-   <meta property="og:url" content="https://yourgithubusername.github.io/MIDI2LUA">
-     <meta property="og:site_name" content="MIDI2LUA">
-     <meta property="og:description" content="a revolutionary roblox autoplaying tool.">
-     <meta property="og:footer" content="by hellohellohell012321">
-  <meta property="og:image" content="https://i.imgur.com/38kUeWe.jpeg">
-  
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourgithubusername.github.io/MIDI2LUA">
+  <meta property="og:site_name" content="MIDI2LUA">
+  <meta property="og:description" content="a revolutionary roblox autoplaying tool.">
+  <meta property="og:footer" content="by hellohellohell012321">
+
   <title>MIDI2LUA</title>
-  <script src="https://cdn.jsdelivr.net/npm/tone"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tonejs/midi"></script>
   <style>
     body {
@@ -31,7 +29,7 @@
       align-items: center;
     }
 
-    #popup {
+    #popup, #popup2 {
       position: fixed;
       top: 50%;
       left: 50%;
@@ -117,11 +115,11 @@
       background-color: #fb6f92;
     }
 
-    #copyButton {
+    #copyButton, #pasteButton {
       background-color: #ff8fab;
     }
 
-    #copyButton:hover {
+    #copyButton:hover, #pasteButton:hover {
       background-color: #fb6f92;
     }
 
@@ -162,7 +160,7 @@
       gap: 10px;
     }
 
-    #infoIcon {
+    #infoIcon, #infoIcon2 {
       cursor: pointer;
       color: blue;
       text-decoration: underline;
@@ -200,7 +198,10 @@
       </div>
 
       <textarea id="output" readonly placeholder="Converted output will appear here..."></textarea>
-      <button id="copyButton">copy that bih</button>
+        <div style="display: flex; gap: 50px;">
+          <button id="copyButton">copy script</button>
+          <button id="pasteButton">convert into loadstring</button>
+        </div>
 
       <!-- Popup modal -->
       <div id="popup">
@@ -208,6 +209,12 @@
         <h3>What is midi88 conversion?</h3>
         <p>midi88 lets you press lower and higher keys in the virtual piano, by clicking the control key. Usually, Roblox pianos only have five octaves on the piano, but a lot of songs use seven octaves. So when you are autoplaying with midi88, the song will sound a lot more full because it will be using the full seven-octave piano. The downside is that only some games support the usage of midi88, some of them being: Visual Pianos, Piano Rooms, Tac's Piano Stuff</p>
         <button onclick="closePopup()">ok!</button>
+      </div>
+
+      <div id="popup2">
+        <h3>What is short note presses?</h3>
+        <p>If you have short note presses enabled, then it will press each note very quickly before letting go. This is the method that most of the songs in TALENTLESS use. When disabled, you will instead hold each note the same amount of time as your midi file.</p>
+        <button onclick="closePopup2()">ok!</button>
       </div>
       
     </div>
@@ -222,23 +229,34 @@
       <p><strong>Q:</strong> Why does it sound kind of weird?</p>
       <p><strong>A:</strong> MIDI2LUA is 100% accurate, so make sure the issue doesn't arise from the MIDI file itself.</p>
       <p><strong>Q:</strong> Where do I find MIDI files?</p>
-      <p><strong>A:</strong> Use an online sequencer, or use a MuseScore to MIDI converter.</p>
+      <p><strong>A:</strong> Use online sequencer, nanomidi.net or use a MuseScore to MIDI converter.</p>
       <p><strong>Q:</strong> I have a question or an issue that wasn't mentioned in the FAQ.</p>
       <p><strong>A:</strong> Join the Discord and create a support ticket! <a href="https://discord.gg/MP9nZgEeQD" target="_blank">Join here</a></p>
     </div>
   </div>
 
   <script>
-// Show popup without fade-in effect
+  
 document.getElementById('infoIcon').addEventListener('click', function() {
   const popup = document.getElementById('popup');
   popup.style.visibility = 'visible'; // Make the popup visible immediately
   popup.style.display = `block`;
 });
 
-// Close popup without fade-out effect
 function closePopup() {
   const popup = document.getElementById('popup');
+  popup.style.visibility = 'hidden'; // Hide the popup immediately
+  popup.style.display = 'none';      // Remove from the layout
+}
+
+document.getElementById('infoIcon2').addEventListener('click', function() {
+  const popup = document.getElementById('popup2');
+  popup.style.visibility = 'visible'; // Make the popup visible immediately
+  popup.style.display = `block`;
+});
+
+function closePopup2() {
+  const popup = document.getElementById('popup2');
   popup.style.visibility = 'hidden'; // Hide the popup immediately
   popup.style.display = 'none';      // Remove from the layout
 }
@@ -246,6 +264,7 @@ function closePopup() {
 
 <script src="midi61.js"></script>
 <script src="midi88.js"></script>
+<script src="pastefy.js"></script>
 
 </body>
 </html>
