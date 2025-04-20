@@ -1,36 +1,3 @@
-// this only needs to be used once so that every js file can use it
-function uploadToPastefy(title, content, callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://pastefy.app/api/v2/paste");
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.setRequestHeader("Content-Type", "application/json");
-  
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-         let real = JSON.parse(xhr.responseText);
-         let url = real.paste.raw_url;
-         console.log(url);
-         if (callback) {
-           callback(url); // Invoke the callback with the URL
-         }
-      }
-    };
-  
-    let data = JSON.stringify({
-      type: "PASTE",
-      title: title,
-      content: content,
-      visibility: "UNLISTED",
-      encrypted: "false",
-      expire_at: "2030-02-01 16:03:09.0"
-    });
-  
-    xhr.send(data);
-}
-window.uploadToPastefy = uploadToPastefy;
-
-
-
 document.getElementById("convertButton").addEventListener("click", async () => {
     console.log("Button click detected in Script 1"); 
     const fileInput = document.getElementById("midiFile");
@@ -90,12 +57,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
             const currentKey = noteMap[note.name] || note.name;
   
             // Calculate the keypress duration based on the bpm input
-            let keypressDuration = bpmInput / 600;
-  
-            // If the keypress duration exceeds 0.25, limit it to 0.25
-            if (keypressDuration > 0.25) {
-                keypressDuration = 0.25;
-            }
+            let keypressDuration = `x`;
   
             if (currentKey !== lastKey) {  // Check if the current key is different from the last pressed key
                 output += `keypress("${currentKey}", ${keypressDuration}, bpm)\n`;
@@ -107,13 +69,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
         
         output += `\n\nfinishedSong()`
         const outputText = document.getElementById("output");
-       outputText.value = "Uploading to Pastefy...";
-        uploadToPastefy("MIDI2LUA SCRIPT", output, function(url) {
-            console.log(url);
-            // assemble loadstring using url
-            outputText.value = `loadstring(game:HttpGet("${url}", true))()`;
-
-        });
+        outputText.value = output;
     };
     
     reader.readAsArrayBuffer(fileInput.files[0]);
