@@ -60,10 +60,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
 
             const currentKey = noteMap[note.name] || note.name;
 
-            let keypressDuration = bpmInput / 600;
-            if (keypressDuration > 0.25) {
-                keypressDuration = 0.25;
-            }
+            let keypressDuration = `x`;
 
             if (currentKey !== lastKey) {
                 output += `keypress("${currentKey}", ${keypressDuration}, bpm)\n`;
@@ -75,13 +72,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
         
         output += `\n\nfinishedSong()`
         const outputText = document.getElementById("output");
-       outputText.value = "Uploading to Pastefy...";
-        uploadToPastefy("MIDI2LUA SCRIPT", output, function(url) {
-            console.log(url);
-            // assemble loadstring using url
-            outputText.value = `loadstring(game:HttpGet("${url}", true))()`;
-
-        });
+       outputText.value = output;
     };
     
     reader.readAsArrayBuffer(fileInput.files[0]);
