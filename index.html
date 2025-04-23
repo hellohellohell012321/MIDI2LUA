@@ -115,11 +115,11 @@
       background-color: #fb6f92;
     }
 
-    #copyButton, #pasteButton {
+    #copyButton, #pasteButton, #txtButton {
       background-color: #ff8fab;
     }
 
-    #copyButton:hover, #pasteButton:hover {
+    #copyButton:hover, #pasteButton:hover, #txtButton:hover {
       background-color: #fb6f92;
     }
 
@@ -204,9 +204,10 @@
       </div>
 
       <textarea id="output" readonly placeholder="Converted output will appear here..."></textarea>
-        <div style="display: flex; gap: 50px;">
+        <div style="display: flex; gap: 50px;" class="button-container">
           <button id="copyButton">copy script</button>
           <button id="pasteButton">convert into loadstring</button>
+          <button id="txtButton">save as txt</button>
         </div>
 
       <!-- Popup modal -->
@@ -241,7 +242,8 @@
     </div>
   </div>
 
-  <script>
+
+<script>
   
 document.getElementById('infoIcon').addEventListener('click', function() {
   const popup = document.getElementById('popup');
@@ -266,7 +268,7 @@ function closePopup2() {
   popup.style.visibility = 'hidden'; // Hide the popup immediately
   popup.style.display = 'none';      // Remove from the layout
 }
-  </script>
+</script>
 
 <script src="midi61.js"></script>
 <script src="midi88.js"></script>
