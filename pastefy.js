@@ -43,3 +43,13 @@ document.getElementById("pasteButton").addEventListener("click", () => {
         outputText.value = `loadstring(game:HttpGet("${url}", true))()`;
     });
 });
+
+
+document.getElementById("txtButton").addEventListener("click", function () {
+  const outputText = document.getElementById("output").value;
+  const blob = new Blob([outputText], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "output.txt";
+  link.click();
+});
