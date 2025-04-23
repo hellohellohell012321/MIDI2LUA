@@ -193,8 +193,14 @@
 
       <div class="checkbox-container">
         <input type="checkbox" id="midi88Checkbox" />
-        <label for="midi88Checkbox">toggle midi88 conversion</label>
+        <label for="midi88Checkbox">midi88 conversion</label>
         <span id="infoIcon">?</span>
+      </div>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="detectBpmCheckbox" />
+        <label for="detectBpmCheckbox">detect bpm</label>
+        <span id="infoIcon2">?</span>
       </div>
 
       <textarea id="output" readonly placeholder="Converted output will appear here..."></textarea>
@@ -212,8 +218,8 @@
       </div>
 
       <div id="popup2">
-        <h3>What is short note presses?</h3>
-        <p>If you have short note presses enabled, then it will press each note very quickly before letting go. This is the method that most of the songs in TALENTLESS use. When disabled, you will instead hold each note the same amount of time as your midi file.</p>
+        <h3>What does this mean?</h3>
+        <p>If you have Detect BPM enabled, the website will automatically find the BPM of your MIDI file and use that. This way, you don't need to search for the song's BPM online.</p>
         <button onclick="closePopup2()">ok!</button>
       </div>
       
