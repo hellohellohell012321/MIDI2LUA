@@ -11,7 +11,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
         return;
       }
   
-    const bpmInput = document.getElementById("bpmInput").value;  // Access the bpmInput correctly
+    let bpmInput = document.getElementById("bpmInput").value;  // Access the bpmInput correctly
     const noteMap = {
         "C1": "1", "C#1": "!", "Db1": "!", "D1": "2", "D#1": "@", "Eb1": "@", "E1": "3", "F1": "4", "F#1": "$", "Gb1": "$", "G1": "5", "G#1": "%", "Ab1": "%", "A1": "6", "A#1": "^", "Bb1": "^", "B1": "7",
         "C2": "1", "C#2": "!", "Db2": "!", "D2": "2", "D#2": "@", "Eb2": "@", "E2": "3", "F2": "4", "F#2": "$", "Gb2": "$", "G2": "5", "G#2": "%", "Ab2": "%", "A2": "6", "A#2": "^", "Bb2": "^", "B2": "7",
@@ -26,6 +26,11 @@ document.getElementById("convertButton").addEventListener("click", async () => {
     reader.onload = async (event) => {
         const midiData = new Uint8Array(event.target.result);
         const midi = new Midi(midiData);
+
+        if (document.getElementById("detectBpmCheckbox").checked) {
+            bpmInput = midi.header.tempos[0]?.bpm || `no bpm detected.`; // Use the BPM from the MIDI file, default to 120 if not found
+        }
+
         midi.header.setTempo(60);
         
         let output = "";
