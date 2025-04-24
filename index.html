@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yourgithubusername.github.io/MIDI2LUA">
+  <meta property="og:url" content="https://hellohellohell012321.github.io/MIDI2LUA">
   <meta property="og:site_name" content="MIDI2LUA">
-  <meta property="og:description" content="a revolutionary roblox autoplaying tool.">
+  <meta property="og:description" content="a revolutionary roblox autoplaying tool. by hellohellohell012321">
   <meta property="og:footer" content="by hellohellohell012321">
+  <meta property="og:image" content="https://i.pinimg.com/736x/08/07/ce/0807cecd7bc87c3415bf68519b648321.jpg">
 
   <title>MIDI2LUA</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tonejs/midi"></script>
+
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -20,6 +21,7 @@
       padding: 20px;
       background-color: transparent;
       overflow-y: auto;
+      background-color: #121212;
     }
 
     .wrapper {
@@ -27,18 +29,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-
-    #popup, #popup2 {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      padding: 20px;
-      border: 1px solid black;
-      visibility: hidden;
-      display: none;
     }
 
     .container {
@@ -53,7 +43,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: white;
+      background: #1e1e1e;
     }
 
     @keyframes slideUp {
@@ -63,7 +53,7 @@
 
     h1 {
       font-size: 2rem;
-      color: #fb6f92;
+      color: #ffffff;
       margin-bottom: 20px;
       font-weight: bold;
       letter-spacing: 1px;
@@ -71,7 +61,7 @@
 
     label {
       font-size: 1.1rem;
-      color: #ff8fab;
+      color: #e0e0e0;
       margin-bottom: 5px;
       display: block;
     }
@@ -80,19 +70,19 @@
       width: 100%;
       padding: 12px;
       margin: 10px 0;
-      border: 1px solid #ffe5ec;
+      border: 1px solid #444;
       border-radius: 8px;
       font-size: 1rem;
       transition: all 0.3s ease-in-out;
     }
 
     input[type="file"] {
-      background-color: #f9f9f9;
+      background-color: #2a2a2a;
       cursor: pointer;
     }
 
     button {
-      background-color: #ffc2d1;
+      background-color: #444;
       color: white;
       border: none;
       cursor: pointer;
@@ -103,46 +93,46 @@
     }
 
     button:hover {
-      background-color: #ffb3c6;
+      background-color: #555;
       transform: scale(1.02);
     }
 
     #convertButton {
-      background-color: #ff8fab;
+      background-color: #444;
     }
 
     #convertButton:hover {
-      background-color: #fb6f92;
+      background-color: #555;
     }
 
     #copyButton, #pasteButton, #txtButton {
-      background-color: #ff8fab;
+      background-color: #444;
     }
 
     #copyButton:hover, #pasteButton:hover, #txtButton:hover {
-      background-color: #fb6f92;
+      background-color: #555;
     }
 
     textarea {
       resize: vertical;
       min-height: 150px;
-      background-color: #fafafa;
-      border: 1px solid #ffe5ec;
-      color: #333;
+      background-color: #1e1e1e;
+      border: 1px solid #444;
+      color: #e0e0e0;
       font-size: 1rem;
     }
 
     .info-box {
       max-width: 600px;
-      background-color: #fff3f8;
-      border: 1px solid #ffe5ec;
+      background-color: #1e1e1e;
+      border: 1px solid #444;
       border-radius: 12px;
       padding: 15px 20px;
       margin-top: 20px;
       text-align: left;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       font-size: 1rem;
-      color: #444;
+      color: #e0e0e0;
     }
 
     .info-box p {
@@ -160,14 +150,32 @@
       gap: 10px;
     }
 
-    #infoIcon, #infoIcon2 {
+    #bpmInput {
+    background-color: #1e1e1e; /* Dark grey background */
+    color: #e0e0e0; /* Light grey text */
+    border: 1px solid #444; /* Dark grey border */
+    border-radius: 8px;
+    padding: 12px;
+    }
+
+    input[type="file"] {
+    background-color: #2a2a2a; /* Dark grey background */
+    color: #e0e0e0; /* Light grey text */
+    border: 1px solid #444; /* Dark grey border */
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    }
+
+    #infoIcon, #infoIcon2, #infoIcon3, #infoIcon4 {
       cursor: pointer;
-      color: blue;
+      color: #888;
       text-decoration: underline;
     }
 
     .checkbox-container label {
       white-space: nowrap;
+      color: #e0e0e0;
     }
 
     .popup-container {
@@ -175,18 +183,47 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: white;
+      background-color: #1e1e1e;
       padding: 20px;
       border: 1px solid black;
       display: none;
+    }
+
+    #popup, #popup2, #popup3, #popup4 {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #444;
+      padding: 20px;
+      border: 2px solid #888;
+      visibility: hidden;
+      display: none;
+      color: #e0e0e0;
+    }
+
+    #popup button, #popup2 button, #popup3 button, #popup4 button {
+    background-color: #666; /* Lighter grey for contrast */
+    color: #e0e0e0; /* Light grey text */
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    border-radius: 8px;
+    padding: 12px;
+    }
+
+    #popup button:hover, #popup2 button:hover, #popup3 button:hover, #popup4 button:hover {
+    background-color: #777; /* Slightly lighter grey on hover */
+    transform: scale(1.02);
     }
   </style>
 </head>
 <body>
   <div class="wrapper">
     <div class="container">
-      <h1>MIDI2LUA - a revolutionary roblox autoplaying tool.</h1>
-      <label for="bpmInput">enter BPM:</label>
+      <h1>midi2lua - a revolutionary roblox autoplaying tool.</h1>
+      <label for="bpmInput">enter bpm:</label>
       <input type="number" id="bpmInput" placeholder="Enter BPM" min="1" value="120" />
       <input type="file" id="midiFile" accept=".mid" />
       <button id="convertButton">let's go!</button>
@@ -198,10 +235,23 @@
       </div>
 
       <div class="checkbox-container">
-        <input type="checkbox" id="detectBpmCheckbox" />
+        <input type="checkbox" id="detectBpmCheckbox" checked />
         <label for="detectBpmCheckbox">detect bpm</label>
         <span id="infoIcon2">?</span>
       </div>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="shortNotesCheckbox"/>
+        <label for="shortNotesCheckbox">use midi note lengths</label>
+        <span id="infoIcon3">?</span>
+      </div>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="velocityCheckbox"/>
+        <label for="shortNotesCheckbox">use note velocity</label>
+        <span id="infoIcon4">?</span>
+      </div>
+
 
       <textarea id="output" readonly placeholder="Converted output will appear here..."></textarea>
         <div style="display: flex; gap: 50px;" class="button-container">
@@ -213,15 +263,27 @@
       <!-- Popup modal -->
       <div id="popup">
         <img src="pic.png" alt="Image description" style="width:50%; height:auto; margin-bottom: 15px;">
-        <h3>What is midi88 conversion?</h3>
-        <p>midi88 lets you press lower and higher keys in the virtual piano, by clicking the control key. Usually, Roblox pianos only have five octaves on the piano, but a lot of songs use seven octaves. So when you are autoplaying with midi88, the song will sound a lot more full because it will be using the full seven-octave piano. The downside is that only some games support the usage of midi88, some of them being: Visual Pianos, Piano Rooms, Tac's Piano Stuff</p>
+        <h3>what is midi88 conversion?</h3>
+        <p>midi88 lets you press lower and higher keys in the virtual piano, by clicking the control key. usually, roblox pianos only have five octaves on the piano, but a lot of songs use seven octaves. so when you are autoplaying with midi88, the song will sound a lot more full because it will be using the full seven-octave piano. the downside is that only some games support the usage of midi88, some of them being: Visual Pianos, Piano Rooms, Tac's Piano Stuff</p>
         <button onclick="closePopup()">ok!</button>
       </div>
 
       <div id="popup2">
-        <h3>What does this mean?</h3>
-        <p>If you have Detect BPM enabled, the website will automatically find the BPM of your MIDI file and use that. This way, you don't need to search for the song's BPM online.</p>
+        <h3>what is "detect bpm"?</h3>
+        <p>if you have Detect BPM enabled, the website will automatically find the bpm of your MIDI file and use that. this way, you don't need to search for the song's BPM online.</p>
         <button onclick="closePopup2()">ok!</button>
+      </div>
+
+      <div id="popup3">
+        <h3>what is "short notes"?</h3>
+        <p>if you have short notes enabled, then the piano notes will be pressed for around 0.07 seconds before letting go. this is what all the songs in the script TALENTLESS have. if disabled, then the note will be held for the same amount of time as in your midi.</p>
+        <button onclick="closePopup3()">ok!</button>
+      </div>
+
+      <div id="popup4">
+        <h3>what is note velocity conversion?</h3>
+        <p>note velocity means the volume of the notes you play. this will make your playing more realistic because it will simulate the ALT key on your keyboard to adjust the velocity, making your playing sound like a real piano. the downside is that only some games support this, some of them being: Visual Pianos, Tac's Piano Stuff</p>
+        <button onclick="closePopup4()">ok!</button>
       </div>
       
     </div>
@@ -268,11 +330,44 @@ function closePopup2() {
   popup.style.visibility = 'hidden'; // Hide the popup immediately
   popup.style.display = 'none';      // Remove from the layout
 }
+
+document.getElementById('infoIcon3').addEventListener('click', function() {
+  const popup = document.getElementById('popup3');
+  popup.style.visibility = 'visible'; // Make the popup visible immediately
+  popup.style.display = `block`;
+});
+
+function closePopup3() {
+  const popup = document.getElementById('popup3');
+  popup.style.visibility = 'hidden'; // Hide the popup immediately
+  popup.style.display = 'none';      // Remove from the layout
+}
+
+document.getElementById('infoIcon4').addEventListener('click', function() {
+  const popup = document.getElementById('popup4');
+  popup.style.visibility = 'visible'; // Make the popup visible immediately
+  popup.style.display = `block`;
+});
+
+function closePopup4() {
+  const popup = document.getElementById('popup4');
+  popup.style.visibility = 'hidden'; // Hide the popup immediately
+  popup.style.display = 'none';      // Remove from the layout
+}
+
+
 </script>
 
+</body>
+
+<script type="text/javascript" src=
+  "https://unpkg.com/tone@latest/build/Tone.js"></script>
+  <script type="text/javascript" src=
+  "https://unpkg.com/@tonejs/ui@0.0.8/build/tonejs-ui.js"></script>
+  <script type="text/javascript" src=
+  "https://unpkg.com/@tonejs/midi"></script>
 <script src="midi61.js"></script>
 <script src="midi88.js"></script>
 <script src="pastefy.js"></script>
 
-</body>
 </html>
