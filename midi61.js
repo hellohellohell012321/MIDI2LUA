@@ -5,8 +5,8 @@ document.getElementById("convertButton").addEventListener("click", async () => {
         alert("Please upload a MIDI file.");
         return;
     }
-    const checkbox = document.getElementById("midi88Checkbox")
-    if (checkbox.checked) {
+
+    if (document.getElementById("midi88Checkbox").checked) {
         console.log("Checkbox is checked. Stopping execution.");
         return;
       }
@@ -28,7 +28,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
         const midi = new Midi(midiData);
 
         if (document.getElementById("detectBpmCheckbox").checked) {
-            bpmInput = midi.header.tempos[0]?.bpm || `no bpm detected.`; // Use the BPM from the MIDI file, default to 120 if not found
+            bpmInput = Math.round(midi.header.tempos[0]?.bpm || `no bpm found.`); 
         }
 
         midi.header.setTempo(60);
@@ -42,15 +42,22 @@ document.getElementById("convertButton").addEventListener("click", async () => {
   
         midi.tracks.forEach(track => {
             track.notes.forEach(note => {
-                notesByTime.push({ time: note.time, name: note.name });
+                notesByTime.push({ 
+                    time: note.time, 
+                    name: note.name,
+                    duration: note.duration,
+                    velocity: note.velocity
+                });
             });
         });
         
         notesByTime.sort((a, b) => a.time - b.time);
   
         let lastKey = null;  // Variable to track the last key pressed
-  
+        let lastVel = null;
+
         notesByTime.forEach((note, index) => {
+
             if (index > 0) {
                 let rest = note.time - lastEndTime;
                 if (rest > 0) {
@@ -61,8 +68,20 @@ document.getElementById("convertButton").addEventListener("click", async () => {
   
             const currentKey = noteMap[note.name] || note.name;
   
-            // Calculate the keypress duration based on the bpm input
             let keypressDuration = `x`;
+            let vel = note.velocity || 0.5;
+
+            if (lastVel !== vel) {
+                if (document.getElementById("velocityCheckbox").checked) {
+                    output += `adjustVelocity(${vel})\n`;
+                    lastVel = vel;
+                }
+            }
+
+            // Calculate the keypress duration based on the bpm input
+            if (document.getElementById("shortNotesCheckbox").checked) {
+                keypressDuration = note.duration;
+              }
   
             if (currentKey !== lastKey) {  // Check if the current key is different from the last pressed key
                 output += `keypress("${currentKey}", ${keypressDuration}, bpm)\n`;
