@@ -21,6 +21,10 @@ document.getElementById("convertButton").addEventListener("click", async () => {
         "C6": "l", "C#6": "L", "Db6": "L", "D6": "z", "D#6": "Z", "Eb6": "Z", "E6": "x", "F6": "c", "F#6": "C", "Gb6": "C", "G6": "v", "G#6": "V", "Ab6": "V", "A6": "b", "A#6": "B", "Bb6": "B", "B6": "n",
         "C7": "m", "C#7": "L", "Db7": "L", "D7": "z", "D#7": "Z", "Eb7": "Z", "E7": "x", "F7": "c", "F#7": "C", "Gb7": "C", "G7": "v", "G#7": "V", "Ab7": "V", "A7": "b", "A#7": "B", "Bb7": "B", "B7": "n",
     };
+
+    function roundToThree(num) {
+        return Math.round(num * 1000) / 1000;
+    }
     
     const reader = new FileReader();
     reader.onload = async (event) => {
@@ -31,7 +35,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
             bpmInput = Math.round(midi.header.tempos[0]?.bpm || `no bpm found.`); 
         }
 
-        midi.header.setTempo(60);
+        const multBy = midi.header.tempos[0]?.bpm / 60;
         
         let output = "";
         
@@ -59,7 +63,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
         notesByTime.forEach((note, index) => {
 
             if (index > 0) {
-                let rest = note.time - lastEndTime;
+                let rest = roundToThree((note.time - lastEndTime)*multBy);
                 if (rest > 0) {
                     output += `rest(${rest}, bpm)\n`;
                     lastKey = null;  // Reset lastKey when there's a rest
@@ -69,7 +73,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
             const currentKey = noteMap[note.name] || note.name;
   
             let keypressDuration = `x`;
-            let vel = note.velocity || 0.5;
+            let vel = roundToThree(note.velocity) || 0.5;
 
             if (lastVel !== vel) {
                 if (document.getElementById("velocityCheckbox").checked) {
@@ -80,7 +84,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
 
             // Calculate the keypress duration based on the bpm input
             if (document.getElementById("shortNotesCheckbox").checked) {
-                keypressDuration = note.duration;
+                keypressDuration = roundToThree(note.duration*multBy);
               }
   
             if (currentKey !== lastKey) {  // Check if the current key is different from the last pressed key
