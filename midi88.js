@@ -25,6 +25,10 @@ document.getElementById("convertButton").addEventListener("click", async () => {
 
     };
     
+    function roundToThree(num) {
+        return Math.round(num * 1000) / 1000;
+    }
+
     const reader = new FileReader();
     reader.onload = async (event) => {
         const midiData = new Uint8Array(event.target.result);
@@ -34,7 +38,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
             bpmInput = Math.round(midi.header.tempos[0]?.bpm || `no bpm found.`); 
         }
 
-        midi.header.setTempo(60);
+        const multBy = midi.header.tempos[0]?.bpm / 60;
         
         let output = "";
         
@@ -61,7 +65,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
 
         notesByTime.forEach((note, index) => {
             if (index > 0) {
-                let rest = note.time - lastEndTime;
+                let rest = roundToThree((note.time - lastEndTime)*multBy);
                 if (rest > 0) {
                     output += `rest(${rest}, bpm)\n`;
                     lastKey = null;
@@ -71,7 +75,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
             const currentKey = noteMap[note.name] || note.name;
 
             let keypressDuration = `x`;
-            let vel = note.velocity || 0.5;
+            let vel = roundToThree(note.velocity) || 0.5;
 
             if (lastVel !== vel) {
                 if (document.getElementById("velocityCheckbox").checked) {
@@ -82,7 +86,7 @@ document.getElementById("convertButton").addEventListener("click", async () => {
 
             // Calculate the keypress duration based on the bpm input
             if (document.getElementById("shortNotesCheckbox").checked) {
-                keypressDuration = note.duration;
+                keypressDuration = roundToThree(note.duration*multBy);
               }
 
             if (currentKey !== lastKey) {
