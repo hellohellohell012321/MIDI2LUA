@@ -1,3 +1,6 @@
+let songscript = "";
+let output = "";
+
 // this only needs to be used once so that every js file can use it
 function uploadToPastefy(title, content, callback) {
     let xhr = new XMLHttpRequest();
@@ -31,17 +34,19 @@ window.uploadToPastefy = uploadToPastefy;
 
 
 document.getElementById("pasteButton").addEventListener("click", () => {
-    const outputText = document.getElementById("output");
-    const originalValue = outputText.value; // Store the original value
-    if (originalValue == "") {
-        alert("Nothing to upload!");
-        return;
-    }
-    outputText.value = "Uploading to Pastefy..."; // Change the value to 'uploading to pastefy'
-  
-    uploadToPastefy("MIDI Output", originalValue, (url) => {
-        outputText.value = `loadstring(game:HttpGet("${url}", true))()`;
-    });
+  const outputText = document.getElementById("output");
+  const originalValue = outputText.value; // Store the original value
+  let finalPaste = "";
+  if (originalValue == "") {
+      alert("Nothing to upload!");
+      return;
+  }
+  outputText.value = "Uploading to Pastefy..."; // Change the value to 'uploading to pastefy'
+
+  uploadToPastefy("MIDI Output", songscript, (url1) => {
+      finalPaste += `loadstring(game:HttpGet("${url1}", true))()\n`;
+        outputText.value = output + finalPaste; // Set the final paste value here after the second upload
+  });
 });
 
 
