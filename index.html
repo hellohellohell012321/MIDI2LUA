@@ -12,362 +12,137 @@
   <meta property="og:image" content="https://i.pinimg.com/736x/08/07/ce/0807cecd7bc87c3415bf68519b648321.jpg">
 
   <title>MIDI2LUA</title>
-
+  
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-size: cover;
+    * {
       margin: 0;
-      padding: 20px;
-      background-color: transparent;
-      overflow-y: auto;
-      background-color: #121212;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
-    .wrapper {
+    
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background-color: #121212;
+      color: #fff;
+      padding: 20px;
     }
-
-    .container {
-      border-radius: 12px;
-      padding: 40px;
-      width: 90%;
-      max-width: 600px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      animation: slideUp 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: #1e1e1e;
-    }
-
-    @keyframes slideUp {
-      0% { transform: translateY(50px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-
+    
     h1 {
+      margin-bottom: 40px;
+      text-align: center;
       font-size: 2rem;
-      color: #ffffff;
-      margin-bottom: 20px;
-      font-weight: bold;
+      font-weight: 600;
+      color: #f0f0f0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .button-container {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .animated-button {
+      position: relative;
+      display: inline-block;
+      padding: 20px 50px;
+      font-size: 1.5rem;
+      font-weight: 500;
       letter-spacing: 1px;
-      line-height: 1;
-    }
-
-    label {
-      font-size: 1.1rem;
-      color: #e0e0e0;
-      margin-bottom: 5px;
-      display: block;
-    }
-
-    input, button, textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #444;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: all 0.3s ease-in-out;
-    }
-
-    input[type="file"] {
-      background-color: #2a2a2a;
-      cursor: pointer;
-    }
-
-    button {
-      background-color: #444;
-      color: white;
+      color: #fff;
+      background: linear-gradient(45deg, #4d4d4d, #292929);
       border: none;
+      border-radius: 50px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
       cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-      border-radius: 8px;
-      padding: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      min-width: 250px;
     }
-
-    button:hover {
-      background-color: #555;
-      transform: scale(1.02);
-    }
-
-    #convertButton {
-      background-color: #444;
-    }
-
-    #convertButton:hover {
-      background-color: #555;
-    }
-
-    #copyButton, #pasteButton, #txtButton {
-      background-color: #444;
-    }
-
-    #copyButton:hover, #pasteButton:hover, #txtButton:hover {
-      background-color: #555;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 150px;
-      background-color: #1e1e1e;
-      border: 1px solid #444;
-      color: #e0e0e0;
-      font-size: 1rem;
-    }
-
-    .info-box {
-      max-width: 600px;
-      background-color: #1e1e1e;
-      border: 1px solid #444;
-      border-radius: 12px;
-      padding: 15px 20px;
-      margin-top: 20px;
-      text-align: left;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      font-size: 1rem;
-      color: #e0e0e0;
-    }
-
-    .info-box p {
-      margin: 5px 0;
-    }
-
-    .info-box h2 {
-      margin-bottom: 10px;
-    }
-
-    .checkbox-container {
+    
+    .animated-button::before {
+      content: "take me there!";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      transition: all 0.5s ease;
     }
-
-    #bpmInput {
-    background-color: #1e1e1e; /* Dark grey background */
-    color: #e0e0e0; /* Light grey text */
-    border: 1px solid #444; /* Dark grey border */
-    border-radius: 8px;
-    padding: 12px;
+    
+    .animated-button::after {
+      content: "→";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(100%);
+      transition: all 0.5s ease;
+      font-size: 1.5rem;
     }
-
-    input[type="file"] {
-    background-color: #2a2a2a; /* Dark grey background */
-    color: #e0e0e0; /* Light grey text */
-    border: 1px solid #444; /* Dark grey border */
-    border-radius: 8px;
-    padding: 8px;
-    cursor: pointer;
+    
+    .animated-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
     }
-
-    #infoIcon, #infoIcon2, #infoIcon3, #infoIcon4 {
-      cursor: pointer;
-      color: #888;
-      text-decoration: underline;
+    
+    .animated-button:hover::before {
+      transform: translateY(-100%);
     }
-
-    .checkbox-container label {
-      white-space: nowrap;
-      color: #e0e0e0;
+    
+    .animated-button:hover::after {
+      transform: translateY(0);
     }
-
-    .popup-container {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #1e1e1e;
-      padding: 20px;
-      border: 1px solid black;
-      display: none;
+    
+    .glow {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: radial-gradient(
+        circle,
+        rgba(150, 150, 150, 0.2) 0%,
+        rgba(150, 150, 150, 0) 70%
+      );
+      animation: pulse 2s infinite;
+      z-index: -1;
     }
-
-    #popup, #popup2, #popup3, #popup4 {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #444;
-      padding: 20px;
-      border: 2px solid #888;
-      visibility: hidden;
-      display: none;
-      color: #e0e0e0;
-    }
-
-    #popup button, #popup2 button, #popup3 button, #popup4 button {
-    background-color: #666; /* Lighter grey for contrast */
-    color: #e0e0e0; /* Light grey text */
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-    border-radius: 8px;
-    padding: 12px;
-    }
-
-    #popup button:hover, #popup2 button:hover, #popup3 button:hover, #popup4 button:hover {
-    background-color: #777; /* Slightly lighter grey on hover */
-    transform: scale(1.02);
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+      50% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <div class="container">
-      <h1>midi2lua - a revolutionary roblox autoplaying tool.</h1>
-      <label for="bpmInput">enter bpm:</label>
-      <input type="number" id="bpmInput" placeholder="Enter BPM" min="1" value="120" />
-      <input type="file" id="midiFile" accept=".mid" />
-      <button id="convertButton">let's go!</button>
-
-      <div class="checkbox-container">
-        <input type="checkbox" id="midi88Checkbox" />
-        <label for="midi88Checkbox">midi88 conversion</label>
-        <span id="infoIcon">?</span>
-      </div>
-
-      <div class="checkbox-container">
-        <input type="checkbox" id="detectBpmCheckbox" checked />
-        <label for="detectBpmCheckbox">detect bpm</label>
-        <span id="infoIcon2">?</span>
-      </div>
-
-      <div class="checkbox-container">
-        <input type="checkbox" id="shortNotesCheckbox"/>
-        <label for="shortNotesCheckbox">use midi note lengths</label>
-        <span id="infoIcon3">?</span>
-      </div>
-
-      <div class="checkbox-container">
-        <input type="checkbox" id="velocityCheckbox"/>
-        <label for="shortNotesCheckbox">use note velocity</label>
-        <span id="infoIcon4">?</span>
-      </div>
-
-
-      <textarea id="output" readonly placeholder="Converted output will appear here..."></textarea>
-        <div style="display: flex; gap: 50px;" class="button-container">
-          <button id="copyButton">copy script</button>
-          <button id="pasteButton">convert into loadstring</button>
-          <button id="txtButton">save as txt</button>
-        </div>
-
-      <!-- Popup modal -->
-      <div id="popup">
-        <img src="pic.png" alt="Image description" style="width:50%; height:auto; margin-bottom: 15px;">
-        <h3>what is midi88 conversion?</h3>
-        <p>midi88 lets you press lower and higher keys in the virtual piano, by clicking the control key. usually, roblox pianos only have five octaves on the piano, but a lot of songs use seven octaves. so when you are autoplaying with midi88, the song will sound a lot more full because it will be using the full seven-octave piano. the downside is that only some games support the usage of midi88, some of them being: Visual Pianos, Piano Rooms, Tac's Piano Stuff</p>
-        <button onclick="closePopup()">ok!</button>
-      </div>
-
-      <div id="popup2">
-        <h3>what is "detect bpm"?</h3>
-        <p>if you have Detect BPM enabled, the website will automatically find the bpm of your MIDI file and use that. this way, you don't need to search for the song's BPM online.</p>
-        <button onclick="closePopup2()">ok!</button>
-      </div>
-
-      <div id="popup3">
-        <h3>what is "use midi note lengths"?</h3>
-        <p>if you have this enabled, the notes you play will be held for the same amount of time as in your midi file. if disabled, then the piano notes will be pressed for around 0.07 seconds before letting go. all the songs in the script TALENTLESS use short notes, but this is just a preference, if you prefer having your notes be the same length as your midi.</p>
-        <button onclick="closePopup3()">ok!</button>
-      </div>
-
-      <div id="popup4">
-        <h3>what is note velocity conversion?</h3>
-        <p>note velocity means the volume of the notes you play. this will make your playing more realistic because it will simulate the ALT key on your keyboard to adjust the velocity, making your playing sound like a real piano. the downside is that only some games support this, some of them being: Visual Pianos, Tac's Piano Stuff</p>
-        <button onclick="closePopup4()">ok!</button>
-      </div>
-      
-    </div>
-
-    <!-- Information Box -->
-    <div class="info-box">
-      <h2>About MIDI2LUA</h2>
-      <p>MIDI2LUA is branched off of TALENTLESS, a Roblox script that autoplays the virtual piano by injecting fake keystrokes. MIDI2LUA extracts the rest intervals between notes in your MIDI file and converts them into a custom LUA format, which was also created by hellohellohell012321 and is used in his script, TALENTLESS.</p>
-      <p><strong>FAQ</strong></p>
-      <p><strong>Q:</strong> How do I start the autoplay?</p>
-      <p><strong>A:</strong> Copy the output that this website gives you, paste it into your Roblox executor, and run it.</p>
-      <p><strong>Q:</strong> Why does it sound kind of weird?</p>
-      <p><strong>A:</strong> MIDI2LUA is 100% accurate, so make sure the issue doesn't arise from the MIDI file itself.</p>
-      <p><strong>Q:</strong> Where do I find MIDI files?</p>
-      <p><strong>A:</strong> Use online sequencer, nanomidi.net or use a MuseScore to MIDI converter.</p>
-      <p><strong>Q:</strong> I have a question or an issue that wasn't mentioned in the FAQ.</p>
-      <p><strong>A:</strong> Join the Discord and create a support ticket! <a href="https://discord.gg/MP9nZgEeQD" target="_blank">Join here</a></p>
-    </div>
-  </div>
-
-
-<script>
+  <h1>midi2lua is now hosted on a new website.</h1>
   
-document.getElementById('infoIcon').addEventListener('click', function() {
-  const popup = document.getElementById('popup');
-  popup.style.visibility = 'visible'; // Make the popup visible immediately
-  popup.style.display = `block`;
-});
-
-function closePopup() {
-  const popup = document.getElementById('popup');
-  popup.style.visibility = 'hidden'; // Hide the popup immediately
-  popup.style.display = 'none';      // Remove from the layout
-}
-
-document.getElementById('infoIcon2').addEventListener('click', function() {
-  const popup = document.getElementById('popup2');
-  popup.style.visibility = 'visible'; // Make the popup visible immediately
-  popup.style.display = `block`;
-});
-
-function closePopup2() {
-  const popup = document.getElementById('popup2');
-  popup.style.visibility = 'hidden'; // Hide the popup immediately
-  popup.style.display = 'none';      // Remove from the layout
-}
-
-document.getElementById('infoIcon3').addEventListener('click', function() {
-  const popup = document.getElementById('popup3');
-  popup.style.visibility = 'visible'; // Make the popup visible immediately
-  popup.style.display = `block`;
-});
-
-function closePopup3() {
-  const popup = document.getElementById('popup3');
-  popup.style.visibility = 'hidden'; // Hide the popup immediately
-  popup.style.display = 'none';      // Remove from the layout
-}
-
-document.getElementById('infoIcon4').addEventListener('click', function() {
-  const popup = document.getElementById('popup4');
-  popup.style.visibility = 'visible'; // Make the popup visible immediately
-  popup.style.display = `block`;
-});
-
-function closePopup4() {
-  const popup = document.getElementById('popup4');
-  popup.style.visibility = 'hidden'; // Hide the popup immediately
-  popup.style.display = 'none';      // Remove from the layout
-}
-
-
-</script>
-
+  <div class="button-container">
+    <div class="glow"></div>
+    <button class="animated-button" onclick="window.location.href='https://www.hellohellohell0.com/midi2lua'"></button>
+  </div>
+  
 </body>
-
-<script type="text/javascript" src=
-  "https://unpkg.com/tone@latest/build/Tone.js"></script>
-  <script type="text/javascript" src=
-  "https://unpkg.com/@tonejs/ui@0.0.8/build/tonejs-ui.js"></script>
-  <script type="text/javascript" src=
-  "https://unpkg.com/@tonejs/midi"></script>
-<script src="midi61.js"></script>
-<script src="pastefy.js"></script>
-
 </html>
